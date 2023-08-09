@@ -8,7 +8,7 @@ import lombok.*;
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
-@Table(name = "user")
+@Table(name = "_user")
 @Entity(name = "User")
 public class User {
 
@@ -16,7 +16,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+    private String public_id;
     private String email;
     private String password;
+    private String role;
 
 }
