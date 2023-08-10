@@ -1,0 +1,12 @@
+/Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/domain/record/UserData.java
+/Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/exception/dto/ErrorMessageDto.java
+/Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/domain/model/User.java
+/Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/exception/InactiveAccountException.java
+/Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/domain/dto/UserDto.java
+/Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/exception/HandlerController.java
+/Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/service/UserService.java
+/Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/exception/GenericException.java
+/Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/controller/UserController.java
+/Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/domain/dto/MessageDto.java
+/Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/repository/UserRepository.java
+/Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/SecurityApiApplication.java
