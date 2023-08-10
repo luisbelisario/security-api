@@ -20,7 +20,7 @@ public class UserController {
     UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserDto> create(@RequestBody @Valid UserData data, UriComponentsBuilder uriBuilder) throws Exception {
+    public ResponseEntity<UserDto> create(@RequestBody UserData data, UriComponentsBuilder uriBuilder) throws Exception {
         UserDto dto = userService.create(data);
         URI uri = uriBuilder.path("/clients/{id}").buildAndExpand(dto.getId()).toUri();
 
