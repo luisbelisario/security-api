@@ -19,7 +19,7 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public UserDto create(UserData data) throws Exception {
+    public UserDto create(UserData data) {
         User user = User.toUser(data);
         return UserDto.toDto(userRepository.save(user));
     }
@@ -33,35 +33,35 @@ public class UserService {
         return UserDto.toDto(user);
     }
 
-    public UserDto updateById(Long id, UserData data) throws Exception {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado para o id informado"));
+    public UserDto updateByPublicId(String publicId, UserData data) {
+        User user = userRepository.findByPublicId(publicId)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado para o public id informado"));
         User updatedUser = User.updateUser(user, data);
         userRepository.save(updatedUser);
         return UserDto.toDto(updatedUser);
     }
 
-    public MessageDto reactivateById(Long id) throws Exception {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado para o id informado"));
+    public MessageDto reactivateById(String publicId) throws Exception {
+        User user = userRepository.findByPublicId(publicId)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado para o public id informado"));
         if(user.getDeletedAt() == null) {
-            throw new GenericException("Cliente já está com a conta ativa");
+            throw new GenericException("Usuário já está com a conta ativa");
         }
         user.setDeletedAt(null);
         userRepository.save(user);
 
-        return MessageDto.toDto("Cliente reativado com sucesso");
+        return MessageDto.toDto("Usuário reativado com sucesso");
     }
 
-    public MessageDto deleteById(Long id) throws Exception {
-        User client = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado para o id informado"));
+    public MessageDto deleteById(String publicId) throws Exception {
+        User client = userRepository.findByPublicId(publicId)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado para o id informado"));
         if(client.getDeletedAt() != null) {
-            throw new GenericException("Cliente já está com a conta inativa");
+            throw new GenericException("Usuário já está com a conta inativa");
         }
         client.setDeletedAt(LocalDate.now());
         userRepository.save(client);
 
-        return MessageDto.toDto("Cliente excluído com sucesso");
+        return MessageDto.toDto("Usuário excluído com sucesso");
     }
 }

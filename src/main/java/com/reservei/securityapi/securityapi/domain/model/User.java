@@ -19,7 +19,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-    private String public_id;
+    @Column(name = "public_id")
+    private String publicId;
     private String email;
     private String password;
     private String role;
@@ -35,7 +36,7 @@ public class User {
 
     public static User toUser(UserData data) {
         User user = new User();
-        user.setPublic_id(data.public_id());
+        user.setPublicId(data.publicId());
         user.setEmail(data.email());
         user.setPassword(data.password());
         user.setRole(data.role());

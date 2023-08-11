@@ -4,7 +4,6 @@ import com.reservei.securityapi.securityapi.domain.dto.MessageDto;
 import com.reservei.securityapi.securityapi.domain.dto.UserDto;
 import com.reservei.securityapi.securityapi.domain.record.UserData;
 import com.reservei.securityapi.securityapi.service.UserService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,23 +33,23 @@ public class UserController {
         return ResponseEntity.ok().body(dto);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<UserDto> updateById(@PathVariable Long id, @RequestBody UserData data) throws Exception {
-        UserDto dto = userService.updateById(id, data);
+    @PutMapping("/{publicId}")
+    public ResponseEntity<UserDto> updateByPublicId(@PathVariable String publicId, @RequestBody UserData data) {
+        UserDto dto = userService.updateByPublicId(publicId, data);
 
         return ResponseEntity.ok().body(dto);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<MessageDto> reactivateById(@PathVariable Long id) throws Exception {
-        MessageDto dto = userService.reactivateById(id);
+    @PatchMapping("/{publicId}")
+    public ResponseEntity<MessageDto> reactivateByPublicId(@PathVariable String publicId) throws Exception {
+        MessageDto dto = userService.reactivateById(publicId);
 
         return ResponseEntity.ok().body(dto);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<MessageDto> deleteById(@PathVariable Long id) throws Exception {
-        MessageDto dto = userService.deleteById(id);
+    @DeleteMapping("/{publicId}")
+    public ResponseEntity<MessageDto> deleteByPublicId(@PathVariable String publicId) throws Exception {
+        MessageDto dto = userService.deleteById(publicId);
 
         return ResponseEntity.ok().body(dto);
     }
