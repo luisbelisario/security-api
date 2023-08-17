@@ -3,9 +3,11 @@ package com.reservei.securityapi.securityapi.controller;
 import com.reservei.securityapi.securityapi.domain.dto.MessageDto;
 import com.reservei.securityapi.securityapi.domain.dto.UserDto;
 import com.reservei.securityapi.securityapi.domain.record.UserData;
+import com.reservei.securityapi.securityapi.exception.GenericException;
 import com.reservei.securityapi.securityapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -20,7 +22,7 @@ public class UserController {
     UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserDto> create(@RequestBody UserData data, UriComponentsBuilder uriBuilder) throws Exception {
+    public ResponseEntity<UserDto> create(@RequestBody UserData data, UriComponentsBuilder uriBuilder) throws GenericException {
         UserDto dto = userService.create(data);
         URI uri = uriBuilder.path("/clients/{id}").buildAndExpand(dto.getId()).toUri();
 
@@ -53,5 +55,12 @@ public class UserController {
         MessageDto dto = userService.deleteById(publicId);
 
         return ResponseEntity.ok().body(dto);
+    }
+
+    @GetMapping("/getUserByToken")
+    public ResponseEntity<UserDetails> findByLogin(@PathVariable String login) throws Exception {
+        UserDetails user = userService.findByLogin(login);
+
+        return ResponseEntity.ok().body(user);
     }
 }

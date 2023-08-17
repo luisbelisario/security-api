@@ -26,8 +26,10 @@ public class User implements UserDetails {
     private Long id;
     @Column(name = "public_id")
     private String publicId;
-    private String email;
+    private String login;
     private String password;
+
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 
     @Column(name = "created_at")
@@ -42,7 +44,7 @@ public class User implements UserDetails {
     public static User toUser(UserData data) {
         User user = new User();
         user.setPublicId(data.publicId());
-        user.setEmail(data.email());
+        user.setLogin(data.login());
         user.setPassword(data.password());
         user.setRole(data.role());
         user.setCreatedAt(LocalDate.now());
@@ -51,7 +53,7 @@ public class User implements UserDetails {
     }
 
     public static User updateUser(User user, UserData data) {
-        user.setEmail(data.email());
+        user.setLogin(data.login());
         user.setPassword(data.password());
         user.setUpdatedAt(LocalDate.now());
 
@@ -60,13 +62,13 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.role == UserRole.ROLE_ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        if (this.role == UserRole.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
         else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override
     public String getUsername() {
-        return email;
+        return login;
     }
 
     @Override

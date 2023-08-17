@@ -2,8 +2,8 @@ package com.reservei.securityapi.securityapi.domain.model;
 
 public enum UserRole {
 
-    ROLE_ADMIN("ROLE_ADMIN"),
-    ROLE_USER("ROLE_USER");
+    ADMIN("ADMIN"),
+    USER("USER");
 
     private String role;
 

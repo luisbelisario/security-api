@@ -9,6 +9,7 @@ import com.reservei.securityapi.securityapi.exception.InactiveAccountException;
 import com.reservei.securityapi.securityapi.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -19,7 +20,8 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public UserDto create(UserData data) {
+    public UserDto create(UserData data) throws GenericException {
+        if (userRepository.findByLogin(data.login()) != null) throw new GenericException("Usuário já cadastrado");
         User user = User.toUser(data);
         return UserDto.toDto(userRepository.save(user));
     }
@@ -63,5 +65,9 @@ public class UserService {
         userRepository.save(client);
 
         return MessageDto.toDto("Usuário excluído com sucesso");
+    }
+
+    public UserDetails findByLogin(String login) {
+        return userRepository.findByLogin(login);
     }
 }
