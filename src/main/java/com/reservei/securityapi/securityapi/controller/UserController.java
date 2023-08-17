@@ -7,7 +7,6 @@ import com.reservei.securityapi.securityapi.exception.GenericException;
 import com.reservei.securityapi.securityapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -55,12 +54,5 @@ public class UserController {
         MessageDto dto = userService.deleteById(publicId);
 
         return ResponseEntity.ok().body(dto);
-    }
-
-    @GetMapping("/getUserByToken")
-    public ResponseEntity<UserDetails> findByLogin(@PathVariable String login) throws Exception {
-        UserDetails user = userService.findByLogin(login);
-
-        return ResponseEntity.ok().body(user);
     }
 }
