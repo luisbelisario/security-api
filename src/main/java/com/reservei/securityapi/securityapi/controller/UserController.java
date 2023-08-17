@@ -3,6 +3,7 @@ package com.reservei.securityapi.securityapi.controller;
 import com.reservei.securityapi.securityapi.domain.dto.MessageDto;
 import com.reservei.securityapi.securityapi.domain.dto.UserDto;
 import com.reservei.securityapi.securityapi.domain.record.UserData;
+import com.reservei.securityapi.securityapi.exception.GenericException;
 import com.reservei.securityapi.securityapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class UserController {
     UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserDto> create(@RequestBody UserData data, UriComponentsBuilder uriBuilder) throws Exception {
+    public ResponseEntity<UserDto> create(@RequestBody UserData data, UriComponentsBuilder uriBuilder) throws GenericException {
         UserDto dto = userService.create(data);
         URI uri = uriBuilder.path("/clients/{id}").buildAndExpand(dto.getId()).toUri();
 

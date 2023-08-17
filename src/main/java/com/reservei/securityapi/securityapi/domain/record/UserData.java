@@ -1,9 +1,11 @@
 package com.reservei.securityapi.securityapi.domain.record;
 
+import com.reservei.securityapi.securityapi.domain.model.UserRole;
+
 public record UserData(
 
         String publicId,
-        String email,
+        String login,
         String password,
-        String role) {
+        UserRole role) {
 }
