@@ -4,6 +4,7 @@
 /Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/exception/InactiveAccountException.java
 /Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/domain/dto/UserDto.java
 /Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/config/security/SecurityFilter.java
+/Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/domain/record/TokenData.java
 /Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/exception/GenericException.java
 /Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/domain/dto/MessageDto.java
 /Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/domain/model/UserRole.java
