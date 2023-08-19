@@ -30,7 +30,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users/validate").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/users/healthCheck").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/users/healthCheck").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users/findByLogin/**").permitAll()
                         .anyRequest().authenticated())
