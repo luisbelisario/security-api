@@ -79,4 +79,9 @@ public class UserController {
 
         return ResponseEntity.ok().body(dto);
     }
+
+    @GetMapping("/healthCheck")
+    public ResponseEntity<?> healthCheck() {
+        return ResponseEntity.ok().build();
+    }
 }
