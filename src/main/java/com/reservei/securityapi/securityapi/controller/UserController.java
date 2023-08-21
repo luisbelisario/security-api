@@ -10,7 +10,6 @@ import com.reservei.securityapi.securityapi.repository.UserRepository;
 import com.reservei.securityapi.securityapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
