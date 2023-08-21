@@ -8,9 +8,11 @@
 /Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/exception/GenericException.java
 /Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/domain/dto/MessageDto.java
 /Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/domain/model/UserRole.java
+/Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/config/security/CorsFilter.java
 /Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/config/security/SecurityConfiguration.java
 /Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/repository/UserRepository.java
 /Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/config/security/AuthenticationService.java
+/Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/config/security/CorsConfig.java
 /Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/domain/record/UserData.java
 /Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/controller/AuthenticationController.java
 /Users/luissantos/Projetos/security-api/src/main/java/com/reservei/securityapi/securityapi/exception/HandlerController.java
