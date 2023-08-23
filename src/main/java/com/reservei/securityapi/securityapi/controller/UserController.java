@@ -38,14 +38,6 @@ public class UserController {
         return ResponseEntity.created(uri).body(dto);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDto> findById(@PathVariable Long id) throws Exception {
-        UserDto dto = userService.findById(id);
-
-        return ResponseEntity.ok().body(dto);
-    }
-
-
     @PostMapping("/validate")
     public String validateToken(@RequestBody TokenData data) {
         try {
@@ -62,14 +54,6 @@ public class UserController {
         UserDto dto = userService.updateByPublicId(publicId, data);
 
         return ResponseEntity.ok().body(dto);
-    }
-
-    @PostMapping("/public/{publicId}")
-    public ResponseEntity<UserDto> findByPublicId(@PathVariable String publicId,
-                                                    @RequestHeader("Authorization") String token) {
-        User user = userService.findByPublicId(publicId);
-
-        return ResponseEntity.ok().body(UserDto.toDto(user));
     }
 
     @PutMapping("reactivate/{publicId}")
