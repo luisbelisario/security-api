@@ -57,23 +57,27 @@ public class TokenService {
     }
 
     public String refreshToken(String token, String login) throws GenericException {
-        if(getTokenBySubject(token, login) && isJWTExpired(token)) {
-            User user = (User) userRepository.findByLogin(login);
-            if(user != null) {
-                return generateToken(user);
-            }
-            throw new GenericException("Usuário não encontrado para os dados informados");
+        if(!isJWTExpired(token)) {
+            throw new GenericException("Token não está expirado");
         }
-        return "Usuário não tem permissão ou token não está expirado";
+        if(!isValidSubject(token, login)) {
+            throw new GenericException("Usuário não tem permissão para refresh desse token");
+        }
+        User user = (User) userRepository.findByLogin(login);
+        if(user != null) {
+            return generateToken(user);
+        } else {
+            throw new GenericException("Usuário não encontrado para o login informado");
+        }
     }
 
-    public boolean isJWTExpired(String token) {
+    public Boolean isJWTExpired(String token) {
         DecodedJWT decodedJWT = JWT.decode(token);
         Date expiresAt = decodedJWT.getExpiresAt();
         return expiresAt.before(new Date());
     }
 
-    private Boolean getTokenBySubject(String token, String login) {
+    private Boolean isValidSubject(String token, String login) {
         DecodedJWT decodedJWT = JWT.decode(token);
         String subject = decodedJWT.getSubject();
         return subject.equals(login);
