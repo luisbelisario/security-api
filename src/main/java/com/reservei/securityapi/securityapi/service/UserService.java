@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -70,14 +69,10 @@ public class UserService {
 
     public UserDetails findByLogin(String login) throws GenericException {
         UserDetails user = userRepository.findByLogin(login);
-        if (user != null) {
-            return user;
-        }
-        throw new GenericException("Usuário não encontrado para os dados informados");
-    }
+        if (user == null) {
+            throw new GenericException("Usuário não encontrado para os dados informados");
 
-    public User findByPublicId(String publicId) {
-        return userRepository.findByPublicId(publicId)
-                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado para o id informado"));
+        }
+        return user;
     }
 }
