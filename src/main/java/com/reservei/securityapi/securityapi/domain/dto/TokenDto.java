@@ -11,10 +11,12 @@ import lombok.Setter;
 @Setter
 public class TokenDto {
 
+    String publicId;
+    String email;
     String token;
 
-    public static TokenDto toDto(String token) {
-        return new TokenDto(token);
+    public static TokenDto toDto(String publicId, String email, String token) {
+        return new TokenDto(publicId, email, token);
     }
 
 }

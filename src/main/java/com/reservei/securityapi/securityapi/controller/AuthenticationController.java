@@ -4,7 +4,10 @@ import com.reservei.securityapi.securityapi.config.security.TokenService;
 import com.reservei.securityapi.securityapi.domain.dto.TokenDto;
 import com.reservei.securityapi.securityapi.domain.model.User;
 import com.reservei.securityapi.securityapi.domain.record.AuthenticationData;
+import com.reservei.securityapi.securityapi.domain.record.LoginData;
 import com.reservei.securityapi.securityapi.domain.record.TokenData;
+import com.reservei.securityapi.securityapi.exception.GenericException;
+import com.reservei.securityapi.securityapi.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,16 +26,21 @@ public class AuthenticationController {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private UserService userService;
+
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody @Valid AuthenticationData data) {
+    public ResponseEntity<TokenDto> login(@RequestBody @Valid AuthenticationData data) {
         UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(
                 data.login(), data.password());
 
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        String token = tokenService.generateToken((User) auth.getPrincipal());
+        User user = (User) auth.getPrincipal();
 
-        return ResponseEntity.ok(TokenDto.toDto(token));
+        String token = tokenService.generateToken(user);
+
+        return ResponseEntity.ok(TokenDto.toDto(user.getPublicId(), user.getLogin(), token));
     }
 
     @GetMapping("/validate")
@@ -43,5 +51,15 @@ public class AuthenticationController {
         } catch (Exception ex) {
             throw new RuntimeException("Erro");
         }
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<TokenDto> refreshToken(@RequestBody LoginData data,
+                                                 @RequestHeader("Authorization") String token) throws GenericException {
+        User user = (User) userService.findByLogin(data.login());
+
+        String refreshToken = tokenService.refreshToken(token, data.login());
+
+        return ResponseEntity.ok(TokenDto.toDto(user.getPublicId(), user.getLogin(), refreshToken));
     }
 }

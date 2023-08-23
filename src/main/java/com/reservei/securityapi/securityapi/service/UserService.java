@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -56,18 +57,27 @@ public class UserService {
     }
 
     public MessageDto deleteById(String publicId) throws Exception {
-        User client = userRepository.findByPublicId(publicId)
+        User user = userRepository.findByPublicId(publicId)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado para o id informado"));
-        if(client.getDeletedAt() != null) {
+        if(user.getDeletedAt() != null) {
             throw new GenericException("Usuário já está com a conta inativa");
         }
-        client.setDeletedAt(LocalDate.now());
-        userRepository.save(client);
+        user.setDeletedAt(LocalDate.now());
+        userRepository.save(user);
 
         return MessageDto.toDto("Usuário excluído com sucesso");
     }
 
-    public UserDetails findByLogin(String login) {
-        return userRepository.findByLogin(login);
+    public UserDetails findByLogin(String login) throws GenericException {
+        UserDetails user = userRepository.findByLogin(login);
+        if (user != null) {
+            return user;
+        }
+        throw new GenericException("Usuário não encontrado para os dados informados");
+    }
+
+    public User findByPublicId(String publicId) {
+        return userRepository.findByPublicId(publicId)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado para o id informado"));
     }
 }

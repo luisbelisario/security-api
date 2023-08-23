@@ -3,6 +3,7 @@ package com.reservei.securityapi.securityapi.controller;
 import com.reservei.securityapi.securityapi.config.security.TokenService;
 import com.reservei.securityapi.securityapi.domain.dto.MessageDto;
 import com.reservei.securityapi.securityapi.domain.dto.UserDto;
+import com.reservei.securityapi.securityapi.domain.model.User;
 import com.reservei.securityapi.securityapi.domain.record.TokenData;
 import com.reservei.securityapi.securityapi.domain.record.UserData;
 import com.reservei.securityapi.securityapi.exception.GenericException;
@@ -61,6 +62,14 @@ public class UserController {
         UserDto dto = userService.updateByPublicId(publicId, data);
 
         return ResponseEntity.ok().body(dto);
+    }
+
+    @PostMapping("/public/{publicId}")
+    public ResponseEntity<UserDto> findByPublicId(@PathVariable String publicId,
+                                                    @RequestHeader("Authorization") String token) {
+        User user = userService.findByPublicId(publicId);
+
+        return ResponseEntity.ok().body(UserDto.toDto(user));
     }
 
     @PutMapping("reactivate/{publicId}")
