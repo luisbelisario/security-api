@@ -2,12 +2,8 @@ package com.reservei.securityapi.securityapi.domain.record;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record AuthenticationData(
+public record LoginData(
 
         @NotBlank
-        String login,
-
-        @NotBlank
-        String password) {
-
+        String login) {
 }

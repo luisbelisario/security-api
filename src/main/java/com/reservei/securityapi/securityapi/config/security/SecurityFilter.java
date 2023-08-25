@@ -1,10 +1,12 @@
 package com.reservei.securityapi.securityapi.config.security;
 
+import com.reservei.securityapi.securityapi.exception.GenericException;
 import com.reservei.securityapi.securityapi.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,12 +25,18 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Autowired
     UserService userService;
 
+    @SneakyThrows
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = this.recoverToken(request);
-        if(token != null) {
+        if(token != null && !tokenService.isJWTExpired(token)) {
             String login = tokenService.validateToken(token);
-            UserDetails user = userService.findByLogin(login);
+            UserDetails user;
+            try {
+                user = userService.findByLogin(login);
+            } catch (GenericException e) {
+                throw new GenericException("Usuário não encontrado para os dados informados");
+            }
             if(user != null) {
                 var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
