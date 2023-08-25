@@ -14,9 +14,10 @@ public class TokenDto {
     String publicId;
     String email;
     String token;
+    String expiresAt;
 
-    public static TokenDto toDto(String publicId, String email, String token) {
-        return new TokenDto(publicId, email, token);
+    public static TokenDto toDto(String publicId, String email, String token, String expiresAt) {
+        return new TokenDto(publicId, email, token, expiresAt);
     }
 
 }

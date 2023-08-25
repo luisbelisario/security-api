@@ -8,12 +8,18 @@ import com.reservei.securityapi.securityapi.domain.record.LoginData;
 import com.reservei.securityapi.securityapi.domain.record.TokenData;
 import com.reservei.securityapi.securityapi.exception.GenericException;
 import com.reservei.securityapi.securityapi.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -30,6 +36,10 @@ public class AuthenticationController {
     private UserService userService;
 
     @PostMapping("/login")
+    @Operation(summary = "Faz login de um usuário", responses = {
+            @ApiResponse(responseCode = "200", description = "Ok"),
+            @ApiResponse(responseCode = "403", description = "Forbidden")
+    })
     public ResponseEntity<TokenDto> login(@RequestBody @Valid AuthenticationData data) {
         UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(
                 data.login(), data.password());
@@ -39,11 +49,16 @@ public class AuthenticationController {
         User user = (User) auth.getPrincipal();
 
         String token = tokenService.generateToken(user);
+        String expiresAt = tokenService.getExpiration(token);
 
-        return ResponseEntity.ok(TokenDto.toDto(user.getPublicId(), user.getLogin(), token));
+        return ResponseEntity.ok(TokenDto.toDto(user.getPublicId(), user.getLogin(), token, expiresAt));
     }
 
     @GetMapping("/validate")
+    @Operation(summary = "Valida o token de um usuário", responses = {
+            @ApiResponse(responseCode = "200", description = "Ok"),
+            @ApiResponse(responseCode = "403", description = "Forbidden")
+    })
     public Boolean validateToken(@RequestBody TokenData data) {
         try {
             String user = tokenService.validateToken(data.token());
@@ -54,12 +69,17 @@ public class AuthenticationController {
     }
 
     @PostMapping("/refresh")
+    @Operation(summary = "Atualiza o token de um usuário", responses = {
+            @ApiResponse(responseCode = "200", description = "Ok"),
+            @ApiResponse(responseCode = "403", description = "Forbidden")
+    })
     public ResponseEntity<TokenDto> refreshToken(@RequestBody LoginData data,
                                                  @RequestHeader("Authorization") String token) throws GenericException {
         User user = (User) userService.findByLogin(data.login());
 
         String refreshToken = tokenService.refreshToken(token, data.login());
+        String expiresAt = tokenService.getExpiration(refreshToken);
 
-        return ResponseEntity.ok(TokenDto.toDto(user.getPublicId(), user.getLogin(), refreshToken));
+        return ResponseEntity.ok(TokenDto.toDto(user.getPublicId(), user.getLogin(), refreshToken, expiresAt));
     }
 }

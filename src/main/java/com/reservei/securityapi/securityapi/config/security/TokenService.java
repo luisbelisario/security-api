@@ -8,13 +8,17 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.reservei.securityapi.securityapi.domain.model.User;
 import com.reservei.securityapi.securityapi.exception.GenericException;
 import com.reservei.securityapi.securityapi.repository.UserRepository;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @Service
@@ -75,6 +79,12 @@ public class TokenService {
         DecodedJWT decodedJWT = JWT.decode(token);
         Date expiresAt = decodedJWT.getExpiresAt();
         return expiresAt.before(new Date());
+    }
+
+    public String getExpiration(String token) {
+        DecodedJWT decodedJWT = JWT.decode(token);
+        SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        return fmt.format(decodedJWT.getExpiresAt());
     }
 
     private Boolean isValidSubject(String token, String login) {
