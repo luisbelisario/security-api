@@ -61,9 +61,6 @@ public class TokenService {
     }
 
     public String refreshToken(String token, String login) throws GenericException {
-        if(!isJWTExpired(token)) {
-            throw new GenericException("Token não está expirado");
-        }
         if(!isValidSubject(token, login)) {
             throw new GenericException("Usuário não tem permissão para refresh desse token");
         }
