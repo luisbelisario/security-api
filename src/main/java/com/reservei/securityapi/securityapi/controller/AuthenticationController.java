@@ -48,7 +48,8 @@ public class AuthenticationController {
         String token = tokenService.generateToken(user);
         String expiresAt = tokenService.getExpiration(token);
 
-        return ResponseEntity.ok(TokenDto.toDto(user.getPublicId(), user.getLogin(), token, expiresAt));
+        return ResponseEntity.ok(TokenDto.toDto(user.getPublicId(), user.getLogin(),
+                String.valueOf(user.getRole()), token, expiresAt));
     }
 
     @GetMapping("/validate")
@@ -77,6 +78,7 @@ public class AuthenticationController {
         String refreshToken = tokenService.refreshToken(token, data.login());
         String expiresAt = tokenService.getExpiration(refreshToken);
 
-        return ResponseEntity.ok(TokenDto.toDto(user.getPublicId(), user.getLogin(), refreshToken, expiresAt));
+        return ResponseEntity.ok(TokenDto.toDto(user.getPublicId(), user.getLogin(),
+                String.valueOf(user.getRole()), refreshToken, expiresAt));
     }
 }
